@@ -86,7 +86,7 @@ def id2lFrag(identifier):
 
 def tptp2antlrCharset(tptpCharset):
     def replace(match):
-        return '\\u{:04x}'.format(int(match.group(1)))
+        return '\\u{:04x}'.format(int(match.group(1), 8))
     regex = re.compile(r"\\(\d{1,3})")
     antlrCharset = regex.sub( replace, tptpCharset )
     return antlrCharset
