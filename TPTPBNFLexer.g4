@@ -57,7 +57,12 @@ GRAMMAR_WS : [ \t\r\n]+ -> channel(HIDDEN);
 // match any string outside
 // Could not contain <
 // Does not start with *, but can contain it
-GRAMMAR_STRING : ~[<|* \t\r\n] ~[<| \t\r\n]*;
+// Does not match brackets { [ ( ) ] } as they are matched seperately
+GRAMMAR_STRING : ~[<|* {[()\]}\t\r\n] ~[<| {[()\]}\t\r\n]*;
+
+// match brackets symbol by symbol, as we do not want to match expressions like
+// ',[' '])' ').' in a single string
+GRAMMAR_STRING_BRACKETS : [{[()\]}] -> type(GRAMMAR_STRING);
 
 // does not work!
 //GRAMMAR_STR_WITH_LESS : ~[a-zA-Z|* \t\r\n]+ [ \t\r\n] -> type(GRAMMAR_STRING);
